@@ -3,16 +3,19 @@ require "fileutils"
 
 file_to_copy = ARGV[0]
 
-if ARGV.size < 2 
-  puts "cpx コピー元 コピー先1 コピー先2……"
+if ARGV.size == 0
+  puts "cpx: ファイルオペランドがありません"
+elsif ARGV.size == 1
+  puts "cpx: '#{file_to_copy}' の後に宛先のファイルオペランドがありません"
 else
   begin
-    Number_of_files_to_copy = ARGV.size - 1
-    Number_of_files_to_copy.times do |i|
-      file_to_duplicate = ARGV[i + 1]
+    ARGV.each_with_index do |file_to_duplicate, index|
+      if index == 0
+        next
+      end
       FileUtils.cp(file_to_copy,file_to_duplicate)
     end
   rescue
-    puts "'#{file_to_copy}' No such file"
+    puts "cpx: #{file_to_copy} を stat できません: そのようなファイルはありません"
   end
 end
