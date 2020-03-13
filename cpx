@@ -1,21 +1,21 @@
 #!/usr/bin/env ruby
 require "fileutils"
 
-file_to_copy = ARGV[0]
+src = ARGV[0]
 
 if ARGV.size == 0
   puts "cpx: ファイルオペランドがありません"
 elsif ARGV.size == 1
-  puts "cpx: '#{file_to_copy}' の後に宛先のファイルオペランドがありません"
+  puts "cpx: '#{src}' の後に宛先のファイルオペランドがありません"
 else
   begin
-    ARGV.each_with_index do |file_to_duplicate, index|
+    ARGV.each_with_index do |dest, index|
       if index == 0
         next
       end
-      FileUtils.cp(file_to_copy,file_to_duplicate)
+      FileUtils.cp(src,dest)
     end
-  rescue
-    puts "cpx: #{file_to_copy} を stat できません: そのようなファイルはありません"
+  rescue => error
+    puts error.message
   end
 end
